@@ -19,7 +19,7 @@ bingoList[2] = [
     { name: "リコハーバーの青コイン20枚", types: ["Ricco_Blues", "Ricco_M", "Fast_20", "Ricco_Early", "Ricco_30", "Ricco_Shines"] },
     { name: "ビアンコヒルズの青コイン15枚", types: ["Bianco_Blues", "Bianco_Early"] },
     { name: "リコハーバーの100枚コイン", types: ["Ricco_100s", "Ricco_Early", "Ricco_Top", "Ricco_Shines"] },
-    { name: "4ステージでコイン50枚（ドルピックタウン以外）", types: ["Ricco_100s", "X100_Coins", "Gelato_100s", "Bianco_100s"] }
+    { name: "3ステージでコイン50枚（ドルピックタウン以外）", types: ["Ricco_100s", "X100_Coins", "Gelato_100s", "Bianco_100s"] }
 ];
 bingoList[3] = [
     { name: "アルバイトの青コイン4枚", types: ["Fruit_Ladies"] },
@@ -53,7 +53,7 @@ bingoList[6] = [
     { name: "NPCの青コイン7枚 (モンテ以外)", types: ["Fruit_Ladies", "Plaza_Blues", "NPC_Blues"] }
 ];
 bingoList[7] = [
-    { name: "マーレのいりえの青コイン10枚", types: ["Noki_Blues", "Noki_Early"] },
+    { name: "マーレのいりえの青コイン12枚", types: ["Noki_Blues", "Noki_Early"] },
     { name: "ビアンコヒルズの青コイン20枚", types: ["Bianco_Early", "Bianco_Blues", "Bianco_Shines"] },
     { name: "ボスパックン撃破（ビアンコ5）", types: ["Bianco_Boss", "Bianco_Early", "Unique_Boss", "Bianco_Shines"] },
     { name: "シレナビーチの100枚コイン", types: ["Sirena_100s", "X100_Coins", "Sirena_Early"] },
@@ -148,9 +148,9 @@ bingoList[17] = [
     { name: "マーレのいりえの100枚コイン", types: ["Noki_100s", "Noki_20"] }
 ];
 bingoList[18] = [
-    { name: "各ステージからシャインを1枚ずつ取得", types: ["Mix_Up", "Shadow_Mix_Up", "Single_Mix_Up"] },
+    { name: "各ステージからシャインを1枚ずつ取得（ドルピックタウン以外）", types: ["Mix_Up", "Shadow_Mix_Up", "Single_Mix_Up"] },
     { name: "ビアンコヒルズの隠しシャイン2枚", types: ["Bianco_Hidden", "Bianco_Late", "Blue_Bird", "Bianco_Yoshi", "Bianco_Shines"] },
-    { name: "5つのステージからシャイン2枚ずつ取得", types: ["Mix_Up", "Plaza_Mix_Up", "Single_Mix_Up"] },
+    { name: "5つのステージからシャイン2枚ずつ取得（ドルピックタウン以外）", types: ["Mix_Up", "Plaza_Mix_Up", "Single_Mix_Up"] },
     { name: "ターボノズル2つ解放", types: ["Gelato_Turbo", "Turbo_Nozzle", "Bianco_Turbo", "Ricco_Turbo", "Sirena_Late"] },
     { name: "青い鳥の青コイン7枚", types: ["Blue_Bird"] },
     { name: "モンテのむらの青コイン25枚", types: ["Pianta_Blues", "Pianta_30", "Pianta_Shines", "Pianta_Lives", "Sirena_Late", "Pianta_Butterfly"] }
@@ -159,14 +159,14 @@ bingoList[19] = [
     { name: "ニセマリオ2体撃破", types: ["Shadow_Mario", "Bianco_Shadow", "Gelato_Shadow", "Ricco_Shadow", "Pianta_Shadow", "Shadow_Plaza", "Shadow_Mix_Up"] },
     { name: "100枚コインのシャイン3枚", types: ["X100_Coins", "Bianco_100s", "Ricco_100s", "Gelato_100s", "Pinna_100s", "Sirena_100s", "Noki_100s", "Secret_100s", "100_Lives"] },
     { name: "モンテマンレース2つ", types: ["Paint_Race", "Wiggler", "Pinna_Paint"] },
-    { name: "3つのステージからシャイン5枚ずつ取得", types: ["Mix_Up", "Shadow_Mix_Up", "Plaza_Mix_Up", "Single_Mix_Up"] },
+    { name: "3つのステージからシャイン5枚ずつ取得（ドルピックタウン以外）", types: ["Mix_Up", "Shadow_Mix_Up", "Plaza_Mix_Up", "Single_Mix_Up"] },
     { name: "シレナビーチのシャイン5枚", types: ["Sirena_5", "Sirena_Yoshi"] },
     { name: "隠しシャイン6枚", types: ["Hidden_Shines", "Ricco_Hidden", "Bianco_Hidden", "Gelato_Hidden", "Sirena_Hidden", "Noki_Hidden", "Pianta_Hidden", "Secret_Shines", "Hidden_Plaza"] }
 ];
 bingoList[20] = [
     { name: "モンテのむらストーリー8", types: ["Pianta_8", "Pianta_Shadow", "Pianta_6", "Pianta_Shines", "Pinna_Shadow", "Gelato_Shadow", "2EP_8", "LateP_LateG", "Pianta_Late", "NPC_Blues"] },
     { name: "シャイン25枚", types: ["Total_Shines", "X_Lives", "Slow_Awful"] },
-    { name: "4つのステージからシャイン4枚ずつ取得", types: ["Mix_Up", "Shadow_Mix_Up", "Plaza_Mix_Up", "Single_Mix_Up"] },
+    { name: "4つのステージからシャイン4枚ずつ取得（ドルピックタウン以外）", types: ["Mix_Up", "Shadow_Mix_Up", "Plaza_Mix_Up", "Single_Mix_Up"] },
     { name: "ピンナパークのニセマリオ撃破", types: ["Pinna_Shadow", "Pinna_6", "Pinna_Shines", "Four_Rockets"] },
     { name: "任意の1ステージからシャイン9枚取得（ドルピックタウン以外）", types: ["Ricco_8", "Pianta_Lives", "Bianco_8", "Gelato_8", "Pinna_8", "Pianta_8", "9_S", "Single_Mix_Up"] },
     { name: "10回土管に入りその先でシャイン回収", types: ["Pianta_8", "Sirena_5", "Pianta_Shadow", "Pianta_6", "LateP_LateS", "NPC_Blues"] }
@@ -191,7 +191,7 @@ bingoList[22] = [
 bingoList[23] = [
     { name: "ピンナパークストーリー8", types: ["Pinna_8", "Pinna_Late", "Pinna_Shines", "Gelato_8", "2EP_8", "Pinna_Paint"] },
     { name: "ボステレサ撃破", types: ["Sirena_5", "Sirena_Late", "Sirena_8", "Sirena_Boss", "Pianta_Shadow", "LateP_LateS", "Three_Rockets"] },
-    { name: "2つのステージからシャイン8枚ずつ取得", types: ["Shadow_Mario", "Shadow_Plaza", "Ricco_8", "Bianco_8", "Gelato_8", "Pinna_8", "9_S"] },
+    { name: "2つのステージからシャイン8枚ずつ取得（ドルピックタウン以外）", types: ["Shadow_Mario", "Shadow_Plaza", "Ricco_8", "Bianco_8", "Gelato_8", "Pinna_8", "9_S"] },
     { name: "マンマビーチストーリー8", types: ["Gelato_8", "Gelato_Shadow", "Gelato_5", "Plaza_G8", "2EP_8", "Noki_Paint", "LateP_LateG", "LateG_Noki", "Sirena_8", "Gelato_Lives", "Gelato_Secret", "Gelato_Yoshi"] },
     { name: "モンテのむらの隠しシャイン2枚", types: ["Pianta_Late", "Pianta_Hidden", "Pianta_8", "Pianta_Shines", "9_S", "Low_Reds", "Pianta_Lives", "Pianta_Shadow", "Two_Rockets", "LateP_LateS", "Pianta_Secret"] }
 ];
