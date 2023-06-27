@@ -364,8 +364,10 @@ class GameType(Enum):
     hitman_3_chongqing = 360
     hitman_3_mendoza = 361
     horizon_zero_dawn_frozen_wilds = 362
+    zelda_totk = 363
+    zelda_totk_short = 364
+    zelda_totk_long = 365
     super_mario_sunshine_2v2_jp = auto()
-    zelda_totk = auto()
 
     def __str__(self):
         return self.short_name
@@ -1024,6 +1026,14 @@ MANUAL_GAME_GROUPS = {
             (GameType.zelda_skyward_sword_rando_blackout, "Randomizer (Blackout)", "SS Rando Blackout"),
         ],
     },
+    GameType.zelda_totk: {
+        "name": "Zelda: Tears of the Kingdom",
+        "variants": [
+            (GameType.zelda_totk, "Normal", "TotK Normal"),
+            (GameType.zelda_totk_short, "Short", "TotK Short"),
+            (GameType.zelda_totk_long, "Long", "TotK Long"),
+        ],
+    },
 }
 SINGLETON_GAME_GROUPS = {
     **singleton_group(GameType._102_dalmatians, "102 Dalmatians: Puppies to the Rescue", "102 Dal: PTTR"),
@@ -1182,7 +1192,6 @@ SINGLETON_GAME_GROUPS = {
     **singleton_group(GameType.yooka_laylee_impossible_lair, "Yooka-Laylee and the Impossible Lair", "YLIL"),
     **singleton_group(GameType.zelda_minish_cap_randomizer, "Zelda: The Minish Cap Randomizer", "TMCR"),
     **singleton_group(GameType.zelda_twilight_princess, "Zelda: Twilight Princess", "Zelda: TP"),
-    **singleton_group(GameType.zelda_totk, "Zelda: Tears of the Kingdom", "Zelda: TotK"),
 }
 GAME_GROUPS = {**MANUAL_GAME_GROUPS, **SINGLETON_GAME_GROUPS}
 
