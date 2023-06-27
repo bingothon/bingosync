@@ -234,7 +234,7 @@ class GameType(Enum):
     pokemon_omega_ruby_alpha_sapphire = 230
     monster_rancher_2_rng_lite = 231
     fallout_new_vegas = 232
-    minecraft_1_18 = 233
+    minecraft_recent = 233
     donald_duck_goin_quackers = 234
     monsters_inc_scare_island = 235
     kingdom_hearts_2_final_mix_current = 236
@@ -368,6 +368,26 @@ class GameType(Enum):
     zelda_totk_short = 364
     zelda_totk_long = 365
     super_mario_sunshine_2v2_jp = auto()
+    hitman_3_marrakech = auto()
+    hitman_3_bangkok = auto()
+    hitman_3_colorado = auto()
+    hitman_3_mumbai = auto()
+    hitman_3_isle_of_sgail = auto()
+    hitman_3_new_york = auto()
+    hitman_3_haven_island = auto()
+    hitman_3_dubai = auto()
+    hitman_3_dartmoor = auto()
+    hitman_3_ambrose_island = auto()
+    elden_ring = auto()
+    star_wars_jfo = auto()
+    pizza_tower = auto()
+    sea_of_thieves = auto()
+    the_forest = auto()
+    nintendo_switch_sports = auto()
+    zelda_botw_german = auto()
+    zelda_botw_german_short = auto()
+    zelda_botw_german_long = auto()
+    rainbow_six_siege = auto()
 
     def __str__(self):
         return self.short_name
@@ -574,13 +594,23 @@ MANUAL_GAME_GROUPS = {
         "variants": [
             (GameType.hitman_3_paris, "Paris", "Hitman 3 Paris"),
             (GameType.hitman_3_sapienza, "Sapienza", "Hitman 3 Sapienza"),
+            (GameType.hitman_3_marrakech, "Marrakech", "Hitman 3 Marrakech"),
+            (GameType.hitman_3_bangkok, "Bangkok", "Hitman 3 Bangkok"),
+            (GameType.hitman_3_colorado, "Colorado", "Hitman 3 Colorado"),
             (GameType.hitman_3_hokkaido, "Hokkaido", "Hitman 3 Hokkaido"),
             (GameType.hitman_3_miami, "Miami", "Hitman 3 Miami"),
             (GameType.hitman_3_santa_fortuna, "Santa Fortuna", "Hitman 3 Santa Fortuna"),
+            (GameType.hitman_3_mumbai, "Mumbai", "Hitman 3 Mumbai"),
             (GameType.hitman_3_whittleton_creek, "Whittleton Creek", "Hitman 3 Whittleton Creek"),
+            (GameType.hitman_3_isle_of_sgail, "Isle of Sgail", "Hitman 3 Isle of Sgail"),
+            (GameType.hitman_3_new_york, "New York", "Hitman 3 New York"),
+            (GameType.hitman_3_haven_island, "Haven Island", "Hitman 3 Haven Island"),
+            (GameType.hitman_3_dubai, "Dubai", "Hitman 3 Dubai"),
+            (GameType.hitman_3_dartmoor, "Dartmoor", "Hitman 3 Dartmoor"),
             (GameType.hitman_3_berlin, "Berlin", "Hitman 3 Berlin"),
             (GameType.hitman_3_chongqing, "Chongqing", "Hitman 3 Chongqing"),
             (GameType.hitman_3_mendoza, "Mendoza", "Hitman 3 Mendoza"),
+            (GameType.hitman_3_ambrose_island, "Ambrose Island", "Hitman 3 Ambrose Island"),
         ],
     },
     GameType.hollow_knight: {
@@ -717,7 +747,7 @@ MANUAL_GAME_GROUPS = {
         "variants": [
             (GameType.minecraft_1_16_1, "1.16.1", "Minecraft 1.16.1"),
             (GameType.minecraft_1_8_9, "1.8.9", "Minecraft 1.8.9"),
-            (GameType.minecraft_1_18, "Most recent (1.18)", "Minecraft 1.18"),
+            (GameType.minecraft_recent, "Most recent (1.19.4)", "Minecraft 1.19"),
         ],
     },
     GameType.monster_rancher_2: {
@@ -998,6 +1028,9 @@ MANUAL_GAME_GROUPS = {
             (GameType.zelda_botw_french, "Normal - FR", "BotW FR Normal"),
             (GameType.zelda_botw_french_short, "Short - FR", "BotW FR Short"),
             (GameType.zelda_botw_french_long, "Long - FR", "BotW FR Long"),
+            (GameType.zelda_botw_german, "Normal - DE", "BotW DE Normal"),
+            (GameType.zelda_botw_german_short, "Short - DE", "BotW DE Short"),
+            (GameType.zelda_botw_german_long, "Long - DE", "BotW DE Long"),
             (GameType.zelda_botw_jp, "Normal - JP", "BotW JP Normal"),
             (GameType.zelda_botw_jp_short, "Short - JP", "BotW JP Short"),
             (GameType.zelda_botw_jp_long, "Long - JP", "BotW JP Long"),
@@ -1080,6 +1113,7 @@ SINGLETON_GAME_GROUPS = {
     **singleton_group(GameType.doom_2016, "DOOM (2016)", "DOOM (2016)"),
     **singleton_group(GameType.dragon_warrior_monsters, "Dragon Warrior Monsters", "DWM"),
     **singleton_group(GameType.dream, "Dream", "Dream"),
+    **singleton_group(GameType.elden_ring, "Elden Ring", "Elden Ring"),
     **singleton_group(GameType.escape_from_tarkov, "Escape from Tarkov", "Escape from Tarkov"),
     **singleton_group(GameType.fallout_new_vegas, "Fallout: New Vegas", "Fallout: NV"),
     **singleton_group(GameType.fantastic_contraption, "Fantastic Contraption", "Fantastic Contraption"),
@@ -1128,6 +1162,7 @@ SINGLETON_GAME_GROUPS = {
     **singleton_group(GameType.new_super_mario_bros_wii, "New Super Mario Bros. Wii", "NSMB Wii"),
     **singleton_group(GameType.nier_automata, "NieR: Automata", "NieR"),
     **singleton_group(GameType.nights_into_dreams, "NiGHTS: Into Dreams", "NiGHTS Into Dreams"),
+    **singleton_group(GameType.nintendo_switch_sports, "Nintendo Switch Sports", "NSS"),
     **singleton_group(GameType.no_mans_sky, "No Man's Sky", "No Man's Sky"),
     **singleton_group(GameType.oceanhorn_2, "Oceanhorn 2: Knights of the Lost Realm", "Oceanhorn 2"),
     **singleton_group(GameType.otogi, "Otogi: Myth of Demons", "Otogi"),
@@ -1135,6 +1170,7 @@ SINGLETON_GAME_GROUPS = {
     **singleton_group(GameType.phasmophobia, "Phasmophobia", "Phasmophobia"),
     **singleton_group(GameType.pikmin, "Pikmin", "Pikmin"),
     **singleton_group(GameType.pikmin_3, "Pikmin 3", "Pikmin 3"),
+    **singleton_group(GameType.pizza_tower, "Pizza Tower", "PizzaTower"),
     **singleton_group(GameType.pokemon_black_white, "Pokémon Black/White", "Poké BW"),
     **singleton_group(GameType.pokemon_colosseum, "Pokémon Colosseum", "Poké Colosseum"),
     **singleton_group(GameType.pokemon_crystal_clear, "Pokémon Crystal Clear,", "Poké CC"),
@@ -1149,6 +1185,7 @@ SINGLETON_GAME_GROUPS = {
     **singleton_group(GameType.psychonauts, "Psychonauts", "Psychonauts"),
     **singleton_group(GameType.quest_for_glory_vga, "Quest for Glory 1 VGA", "QFG1 VGA"),
     **singleton_group(GameType.rabi_ribi, "Rabi-Ribi", "Rabi-Ribi"),
+    **singleton_group(GameType.rainbow_six_siege, "Rainbow Six Siege", "R6S"),
     **singleton_group(GameType.rayman_legends, "Rayman Legends", "Rayman Legends"),
     **singleton_group(GameType.revenge_of_the_bird_king, "Revenge of the Bird King", "RotBK"),
     **singleton_group(GameType.reventure, "Reventure", "Reventure"),
@@ -1157,6 +1194,7 @@ SINGLETON_GAME_GROUPS = {
     **singleton_group(GameType.robot_64, "Robot 64", "Robot 64"),
     **singleton_group(GameType.saga_frontier, "SaGa Frontier (PS1)", "SaGa Frontier (PS1)"),
     **singleton_group(GameType.salt_and_sanctuary, "Salt and Sanctuary", "Salt and Sanctuary"),
+    **singleton_group(GameType.sea_of_thieves, "Sea of Thieves", "Sea of Thieves"),
     **singleton_group(GameType.sekiro, "Sekiro: Shadows Die Twice", "Sekiro"),
     **singleton_group(GameType.simpsons_hit_and_run, "The Simpsons: Hit & Run", "SHaR"),
     **singleton_group(GameType.skyrim, "The Elder Scrolls V: Skyrim", "Skyrim"),
@@ -1170,6 +1208,7 @@ SINGLETON_GAME_GROUPS = {
     **singleton_group(GameType.spelunky_2, "Spelunky 2", "Spelunk 2"),
     **singleton_group(GameType.spyro_1, "Spyro the dragon", "Spyro 1"),
     **singleton_group(GameType.spyro_3_year_of_the_dragon, "Spyro: Year of the Dragon", "Spyro: YotD"),
+    **singleton_group(GameType.star_wars_jfo, "Star Wars Jedi: Fallen Order", "JFO"),
     **singleton_group(GameType.super_mario_63, "Super Mario 63", "SM63"),
     **singleton_group(GameType.super_mario_galaxy, "Super Mario Galaxy", "SM Galaxy"),
     **singleton_group(GameType.super_mario_galaxy_2, "Super Mario Galaxy 2", "SM Galaxy 2"),
@@ -1178,6 +1217,7 @@ SINGLETON_GAME_GROUPS = {
     **singleton_group(GameType.super_metroid_alttp_crossover_randomizer,
             "Super Metroid & A Link to the Past Crossover Randomizer", "SMZ3"),
     **singleton_group(GameType.super_paper_mario, "Super Paper Mario", "SPM"),
+    **singleton_group(GameType.the_forest, "The Forest", "The Forest"),
     **singleton_group(GameType.threads_of_fate, "Threads of Fate", "Threads of Fate"),
     **singleton_group(GameType.tony_hawks_pro_skater_1_2, "Tony Hawk's Pro Skater 1+2", "THPS 1+2"),
     **singleton_group(GameType.touhou_luna_nights, "Touhou Luna Nights", "TLN"),
