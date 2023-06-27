@@ -1,4 +1,4 @@
-from enum import Enum, unique
+from enum import Enum, unique, auto
 
 @unique
 class GameType(Enum):
@@ -364,6 +364,8 @@ class GameType(Enum):
     hitman_3_chongqing = 360
     hitman_3_mendoza = 361
     horizon_zero_dawn_frozen_wilds = 362
+    super_mario_sunshine_2v2_jp = auto()
+    zelda_totk = auto()
 
     def __str__(self):
         return self.short_name
@@ -886,6 +888,7 @@ MANUAL_GAME_GROUPS = {
             (GameType.super_mario_sunshine_1v1_jp, "1v1 - JP", "SMS 1v1 JP"),
             (GameType.super_mario_sunshine_1v1_beta, "1v1 Beta", "SMS 1v1 Beta"),
             (GameType.super_mario_sunshine_2v2, "2v2", "SMS 2v2"),
+            (GameType.super_mario_sunshine_2v2_jp, "2v2 - JP", "SMS 2v2 JP"),
         ],
     },
     GameType.super_mario_world: {
@@ -1179,6 +1182,7 @@ SINGLETON_GAME_GROUPS = {
     **singleton_group(GameType.yooka_laylee_impossible_lair, "Yooka-Laylee and the Impossible Lair", "YLIL"),
     **singleton_group(GameType.zelda_minish_cap_randomizer, "Zelda: The Minish Cap Randomizer", "TMCR"),
     **singleton_group(GameType.zelda_twilight_princess, "Zelda: Twilight Princess", "Zelda: TP"),
+    **singleton_group(GameType.zelda_totk, "Zelda: Tears of the Kingdom", "Zelda: TotK"),
 }
 GAME_GROUPS = {**MANUAL_GAME_GROUPS, **SINGLETON_GAME_GROUPS}
 
