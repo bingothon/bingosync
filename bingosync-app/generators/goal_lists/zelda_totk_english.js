@@ -1,5 +1,3 @@
-var bingoGenerator = require("./generators/generator_bases/srl_generator_v5.js");
-
 var bingoList = []
 bingoList[1] = [{'name': 'Defeat an enemy using only Shields', 'types': ['Combat']},
   {'name': 'Archaic Legwear', 'types': ['Armor', 'GSI']},
@@ -499,3 +497,5 @@ bingoList[25] = [{'name': 'Obtain a Solemn Vow', 'types': ['Temples', 'Sky']},
    'types': ['SideAdventures', 'Camera', 'Temples', 'Travel']},
   {'name': 'Obtain Travel Medallion', 'types': ['Temples', 'MountLanayru']},
   {'name': "Grab Zelda's Hand", 'types': ['Combat']}]
+
+module.exports = bingoList;
