@@ -388,6 +388,11 @@ class GameType(Enum):
     zelda_botw_german_short = auto()
     zelda_botw_german_long = auto()
     rainbow_six_siege = auto()
+    shadow_the_hedgehog_normal = auto()
+    shadow_the_hedgehog_dark = auto()
+    shadow_the_hedgehog_hero = auto()
+    shadow_the_hedgehog_2v2 = auto()
+    sonic_r_balanced = auto()
 
     def __str__(self):
         return self.short_name
@@ -853,6 +858,15 @@ MANUAL_GAME_GROUPS = {
             (GameType.secret_of_mana_short_german, "Short German", "SoM Short German"),
         ],
     },
+    GameType.shadow_the_hedgehog_normal: {
+        "name": "Shadow the Hedgehog",
+        "variants": [
+            (GameType.shadow_the_hedgehog_normal, "Normal", "StH Normal"),
+            (GameType.shadow_the_hedgehog_dark, "Dark", "StH Dark"),
+            (GameType.shadow_the_hedgehog_hero, "Hero", "StH Hero"),
+            (GameType.shadow_the_hedgehog_2v2, "2v2", "StH 2v2"),
+        ],
+    },
     GameType.slime_rancher: {
         "name": "Slime Rancher",
         "variants": [
@@ -868,6 +882,13 @@ MANUAL_GAME_GROUPS = {
             (GameType.sonic_adventure_2_dark_story, "Dark Story", "SA2 Dark"),
             (GameType.sonic_adventure_2_long, "Long", "SA2 Long"),
             (GameType.sonic_adventure_2_nightmare, "Nightmare", "SA2 Nightmare"),
+        ],
+    },
+    GameType.sonic_r: {
+        "name": "Sonic R",
+        "variants": [
+            (GameType.sonic_r, "Normal", "Sonic R"),
+            (GameType.sonic_r_balanced, "Balanced", "Sonic R Balanced"),
         ],
     },
     GameType.splatoon_2_octo_expansion: {
@@ -1202,7 +1223,6 @@ SINGLETON_GAME_GROUPS = {
     **singleton_group(GameType.smash_ultimate_world_of_light, "Smash Ultimate: World of Light", "Smush: WoL"),
     **singleton_group(GameType.snailiad, "Snailiad", "Snailiad"),
     **singleton_group(GameType.sonic_adventure_dx, "Sonic Adventure DX", "SADX"),
-    **singleton_group(GameType.sonic_r, "Sonic R", "Sonic R"),
     **singleton_group(GameType.sos_poot_all_items, "Story of Seasons: Pioneers of Olive Town", "SoS: PoOT All Items", "All Items"),
     **singleton_group(GameType.soul_knight, "Soul Knight", "Soul Knight"),
     **singleton_group(GameType.spelunky_2, "Spelunky 2", "Spelunk 2"),
