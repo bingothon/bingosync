@@ -11,7 +11,6 @@ var bingoList = [
     "Goddess Sword|Cubes|10 Goddess Cubes",
     "Goddess Sword|Cubes|15 Goddess Cubes",
     "Goddess Sword|Cubes|20 Goddess Cubes",
-    "Duplicate an Ampilus Egg",
     "Dungeons|Beat 2 Dungeons",
     "Harp|Complete any Silent Realm",
     "Trial|Harp|Complete Farore's Silent Realm",
