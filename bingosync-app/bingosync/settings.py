@@ -104,7 +104,7 @@ WSGI_APPLICATION = 'bingosync.wsgi.application'
 if IS_PROD:
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'ENGINE': 'django.db.backends.postgresql',
             'NAME': 'bingosync',
             'USER': DB_USER,
         }
