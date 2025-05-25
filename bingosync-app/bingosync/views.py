@@ -18,6 +18,7 @@ from bingosync.forms import RoomForm, JoinRoomForm, GoalListConverterForm
 from bingosync.models.colors import Color
 from bingosync.models.game_type import GameType, ALL_VARIANTS
 from bingosync.models.events import Event, ChatEvent, RevealedEvent, ConnectionEvent, NewCardEvent
+from bingosync.models.misc import SiteNotice
 from bingosync.models.rooms import Room, Game, LockoutMode, Player
 from bingosync.publish import publish_goal_event, publish_chat_event, publish_color_event, publish_revealed_event
 from bingosync.publish import publish_connection_event, publish_new_card_event
@@ -47,9 +48,11 @@ def rooms(request):
     rooms = Room.get_listed_rooms()
     any_idle_rooms = any(room.is_idle for room in rooms)
     all_idle_rooms = all(room.is_idle for room in rooms)
+    notices = SiteNotice.notices_for_user(request.user)
     params = {
         "form": form,
         "rooms": rooms,
+        "notices": notices,
         "variants": ALL_VARIANTS,
         "hide_idle_rooms": any_idle_rooms and not all_idle_rooms,
     }
@@ -67,7 +70,7 @@ def room_view(request, encoded_room_uuid):
             return _join_room(request, join_form, room)
     else:
         try:
-            room = Room.get_for_encoded_uuid_or_404(encoded_room_uuid)
+            room = Room.get_prefetched_for_encoded_uuid_or_404(encoded_room_uuid)
             initial_values = {
                 "game_type": room.current_game.game_type.group.value,
                 "variant_type": room.current_game.game_type.value,
@@ -114,20 +117,20 @@ def room_board(request, encoded_room_uuid):
 
 # AJAX view to render the room settings panel
 def room_settings(request, encoded_room_uuid):
-    room = Room.get_for_encoded_uuid(encoded_room_uuid)
+    room = Room.get_for_encoded_uuid_or_404(encoded_room_uuid)
     panel = loader.get_template("bingosync/room_settings_panel.html").render({"game": room.current_game, "room": room}, request)
     return JsonResponse({"panel": panel, "settings": room.settings});
 
 @csrf_exempt
 def new_card(request):
-    data = json.loads(request.body.decode("utf8"))
+    data = parse_body_json_or_400(request, required_keys=["room", "lockout_mode", "hide_card"])
 
-    room = Room.get_for_encoded_uuid(data["room"])
+    room = Room.get_for_encoded_uuid_or_404(data["room"])
     player = _get_session_player(request.session, room)
 
     lockout_mode = LockoutMode.for_value(int(data["lockout_mode"]))
     hide_card = data["hide_card"]
-    seed = data["seed"]
+    seed = data.get("seed", "")
     custom_json = data.get("custom_json", "")
 
     #create new game
@@ -167,27 +170,19 @@ def new_card(request):
         new_card_event.save()
     publish_new_card_event(new_card_event)
 
-    return HttpResponse("Recieved data: " + str(data))
+    return HttpResponse("Received data: " + str(data))
 
 def history(request):
     hide_solo = request.GET.get('hide_solo')
-
-    if hide_solo:
-        base_rooms = Room.get_with_multiple_players()
-    else:
-        base_rooms = Room.objects.all()
-
-    room_list = base_rooms.order_by("-created_date")
-    paginator = Paginator(room_list, 10) # Show 25 contacts per page
-
     page = request.GET.get('page')
+
+    room_list = Room.get_history(hide_solo=hide_solo)
+    paginator = Paginator(room_list, 10)
     try:
         rooms = paginator.page(page)
     except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
         rooms = paginator.page(1)
     except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
         rooms = paginator.page(paginator.num_pages)
 
     params = {
@@ -278,10 +273,7 @@ def board_revealed(request):
 @csrf_exempt
 def join_room_api(request):
     # grab data from input json
-    try:
-        raw_data = parse_body_json_or_400(request, required_keys=["room", "nickname", "password"])
-    except InvalidRequestJsonError as e:
-        return JsonResponse({"error": str(e)})
+    raw_data = parse_body_json_or_400(request, required_keys=["room", "nickname", "password"])
 
     room = Room.get_for_encoded_uuid_or_404(raw_data["room"])
 
@@ -436,7 +428,9 @@ def parse_body_json_or_400(request, *, required_keys=[]):
 
     for key in required_keys:
         if key not in data:
-            raise InvalidRequestJsonError("Request body \"" + str(data) + "\" missing key: '" + str(key) + "'")
+            raise InvalidRequestJsonError("Request is missing required key: '" + str(key) + "'")
+        elif data[key] == "":
+            raise InvalidRequestJsonError("Request has empty string for required key: '" + str(key) + "'")
 
     return data
 

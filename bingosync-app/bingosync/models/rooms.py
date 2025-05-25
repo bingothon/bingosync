@@ -10,10 +10,16 @@ from enum import Enum, unique
 from bingosync.models.game_type import GameType
 from bingosync.models.colors import Color, CompositeColor
 from bingosync.models.events import Event, GoalEvent, ColorEvent, RevealedEvent, ConnectionEventType, ConnectionEvent
+from bingosync.settings import IS_PROD
 from bingosync.util import encode_uuid, decode_uuid
 
 
+# Temporary hooks for disabling these in production until performance improvements land.
+DISABLE_IDLE_CHECK = IS_PROD
+DISABLE_CONNECTED_PLAYER_SORT = False
+
 STALE_THRESHOLD = datetime.timedelta(minutes=90)
+
 
 class Room(models.Model):
     uuid = models.UUIDField(default=uuid4, editable=False)
@@ -22,6 +28,14 @@ class Room(models.Model):
     passphrase = models.CharField(max_length=255)
     active = models.BooleanField("Active", default=False)
     hide_card = models.BooleanField("Initially Hide Card", default=False)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=["uuid"]),
+            # TODO: make this a partial index after upgrading Django
+            models.Index(fields=["active"]),
+            models.Index(fields=["created_date"]),
+        ]
 
     def __str__(self):
         return self.name
@@ -37,51 +51,84 @@ class Room(models.Model):
         return reverse(room_view, kwargs=kwargs)
 
     @staticmethod
-    def get_for_encoded_uuid(encoded_room_uuid):
+    def get_for_encoded_uuid(encoded_room_uuid, qs=None):
+        if qs is None:
+            qs = Room.objects
         try:
             decoded_uuid = decode_uuid(encoded_room_uuid)
         except ValueError:
             raise Room.DoesNotExist("Malformed encoded uuid: '" + str(encoded_room_uuid) + "'")
-        return Room.objects.get(uuid=decoded_uuid)
+        return qs.get(uuid=decoded_uuid)
 
     @staticmethod
-    def get_for_encoded_uuid_or_404(encoded_room_uuid):
+    def get_for_encoded_uuid_or_404(encoded_room_uuid, qs=None):
         try:
-            return Room.get_for_encoded_uuid(encoded_room_uuid)
+            return Room.get_for_encoded_uuid(encoded_room_uuid, qs)
         except Room.DoesNotExist:
             raise Http404
 
     @staticmethod
+    def get_prefetched_for_encoded_uuid_or_404(encoded_room_uuid):
+        qs = Room.objects.prefetch_related(
+            "game_set",
+        )
+        return Room.get_for_encoded_uuid_or_404(encoded_room_uuid, qs)
+
+    @staticmethod
     def get_listed_rooms():
-        active_rooms = Room.objects.filter(active=True)
+        active_rooms = Room.objects.filter(active=True).prefetch_related(
+            models.Prefetch("game_set", Game.objects.order_by("-created_date")[:1], to_attr="_current_game"),
+            models.Prefetch("player_set", Player.objects.order_by("created_date")[:1], to_attr="_creator"),
+            models.Prefetch("player_set", Player.connected_players_qs(), to_attr="_connected_players"),
+        )
         # use -len(players) so that high numbers of players are at the top
         # but otherwise names are sorted lexicographically descending
-        key = lambda room: (room.is_idle, -len(room.connected_players), room.name)
+        if DISABLE_CONNECTED_PLAYER_SORT:
+            key = lambda room: (room.is_idle, room.name)
+        else:
+            key = lambda room: (room.is_idle, -len(room.connected_players), room.name)
         return sorted(active_rooms, key=key)
 
     @staticmethod
-    def get_with_multiple_players():
-        return Room.objects.annotate(num_players=models.Count('player')).filter(num_players__gt=1)
+    def get_history(hide_solo):
+        rooms = Room.objects.order_by("-created_date").prefetch_related(
+            "game_set",
+            "player_set",
+        )
+        if hide_solo:
+            return rooms.annotate(num_players=models.Count('player')).filter(num_players__gt=1)
+        else:
+            return rooms.all()
 
     @property
     def encoded_uuid(self):
         return encode_uuid(self.uuid)
 
     @property
-    def current_game(self):
-        return Game.objects.filter(room=self).order_by("-created_date").first()
+    def games(self):
+        return self.game_set.all()
 
     @property
-    def games(self):
-        return Game.objects.filter(room=self)
+    def current_game(self):
+        if hasattr(self, "_current_game"):
+            return self._current_game[0]
+        return max(self.game_set.all(), key=lambda g: g.created_date)
 
     @property
     def players(self):
-        return Player.objects.filter(room=self).order_by("name")
+        return self.player_set.all()
+
+    @property
+    def creator(self):
+        if hasattr(self, "_creator"):
+            return self._creator[0]
+        return min(self.player_set.all(), key=lambda p: p.created_date)
 
     @property
     def connected_players(self):
-        return [player for player in self.players if player.connected]
+        if hasattr(self, "_connected_players"):
+            return self._connected_players
+        return Player.connected_players_qs().filter(room=self)
 
     @property
     def latest_event_timestamp(self):
@@ -90,6 +137,8 @@ class Room(models.Model):
 
     @property
     def is_idle(self):
+        if DISABLE_IDLE_CHECK:
+            return False
         idle_time = datetime.datetime.now(datetime.timezone.utc) - self.latest_event_timestamp
         return idle_time > STALE_THRESHOLD
 
@@ -106,10 +155,6 @@ class Room(models.Model):
         self.save()
 
     @property
-    def creator(self):
-        return self.players.order_by("created_date").first()
-
-    @property
     def settings(self):
         game = self.current_game
         return {
@@ -121,6 +166,7 @@ class Room(models.Model):
             "variant_id": game.game_type_value,
             "seed": game.seed,
         }
+
 
 class LockoutMode(Enum):
     non_lockout = 1
@@ -146,12 +192,18 @@ LOCKOUT_MODE_NAMES = {
     LockoutMode.lockout: "Lockout",
 }
 
+
 class Game(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
     seed = models.IntegerField()
     created_date = models.DateTimeField("Creation Time", default=timezone.now)
-    game_type_value = models.IntegerField("Game Type", choices=GameType.choices())
+    game_type_value = models.IntegerField("Game Type", choices=GameType.choices)
     lockout_mode_value = models.IntegerField("Lockout Mode", choices=LockoutMode.choices(), default=LockoutMode.default_value())
+
+    class Meta:
+        indexes = [
+            models.Index(fields=["room", "created_date"]),
+        ]
 
     def __str__(self):
         return self.room.name + ": " + str(self.seed)
@@ -225,6 +277,9 @@ class Square(models.Model):
     image = models.CharField(max_length=2048, default="", blank=True)
     color_value = models.IntegerField("Color", default=CompositeColor.goal_default().value, choices=CompositeColor.goal_choices())
 
+    class Meta:
+        unique_together = (("game", "slot"),)
+
     @property
     def color(self):
         return CompositeColor.for_value(self.color_value)
@@ -245,8 +300,6 @@ class Square(models.Model):
             "colors": self.color.name
         }
 
-    class Meta:
-        unique_together = (("game", "slot"),)
 
 class Player(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
@@ -256,10 +309,22 @@ class Player(models.Model):
     created_date = models.DateTimeField("Creation Time", default=timezone.now)
     is_spectator = models.BooleanField("Is Spectator", default=False)
 
+    class Meta:
+        indexes = [
+            models.Index(fields=["uuid"]),
+        ]
+
     @staticmethod
     def get_for_encoded_uuid(encoded_player_uuid):
         decoded_uuid = decode_uuid(encoded_player_uuid)
         return Player.objects.get(uuid=decoded_uuid)
+
+    @staticmethod
+    def connected_players_qs():
+        con_events = ConnectionEvent.objects.filter(player=models.OuterRef("pk")).order_by("-timestamp")
+        return Player.objects.annotate(
+                con_state=models.Subquery(con_events.values("event")[:1])
+            ).filter(models.Q(con_state=ConnectionEventType.connected.value) | models.Q(con_state=None))
 
     def __str__(self):
         return self.name
@@ -279,7 +344,8 @@ class Player(models.Model):
 
     @property
     def connected(self):
-        last_connection_event = ConnectionEvent.objects.filter(player=self).order_by("timestamp").last()
+        # TODO: try to continue using .last() here even with prefetch_related?
+        last_connection_event = max(self.connectionevent_set.all(), default=None, key=lambda ce: ce.timestamp)
         return not last_connection_event or last_connection_event.event_type == ConnectionEventType.connected
 
     def update_color(self, color):

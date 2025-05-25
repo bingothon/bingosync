@@ -1,4 +1,4 @@
-var bingoList = []
+var bingoList = [];
 bingoList[1] = [{'name': 'Defeat an enemy using only Shields', 'types': ['Combat']},
   {'name': 'Archaic Legwear', 'types': ['Armor', 'GSI']},
   {'name': 'Archaic Warm Greaves', 'types': ['Armor', 'GSI']},
@@ -52,6 +52,7 @@ bingoList[4] = [{'name': 'The Hunt for Bubbul Gems! Side Adventure',
   {'name': 'Fall through any sand or water whirlpool',
    'types': ['GerudoCanyon', 'UplandZorana']},
   {'name': 'Unfuse an equipment in Tarrey Town', 'types': ['UlriMountain']},
+  {'name': "Hestu's Concerns SA", 'types': ['Koroks']},
   {'name': 'Use a Royal Guard’s weapon at low durability',
    'types': ['Combat']},
   {'name': 'Complete 1 Sand Seal Plushie Minigame', 'types': ['Minigames']},
@@ -424,6 +425,7 @@ bingoList[18] = [{'name': 'Defeat an Armored Lynel', 'types': ['Combat']},
    'types': ['SideQuests', 'Camera', 'ThyphloRuins', 'Combat']}],
 bingoList[19] = [{'name': 'Defeat a Thunder Gleeok', 'types': ['Combat', 'Gleeok']},
   {'name': 'Complete a Depths Colosseum', 'types': ['Combat', 'Depths']},
+  {'name': 'Ride Light Dragon (Zelda)', 'types': ['Travel']},
   {'name': 'Obtain a Gloom Club', 'types': ['Combat', 'PhantomGanon']},
   {'name': 'Obtain 14 Character Profiles', 'types': ['Temples']},
   {'name': '15 Shrine Quests', 'types': ['Shrines']},
@@ -496,5 +498,4 @@ bingoList[25] = [{'name': 'Obtain a Solemn Vow', 'types': ['Temples', 'Sky']},
    'types': ['SideAdventures', 'Camera', 'Temples', 'Travel']},
   {'name': 'Obtain Travel Medallion', 'types': ['Temples', 'MountLanayru']},
   {'name': "Grab Zelda's Hand", 'types': ['Combat']}]
-
 module.exports = bingoList;

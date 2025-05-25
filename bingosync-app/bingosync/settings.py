@@ -19,9 +19,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
-IS_PROD = True
+# Import environment-dependent secrets from secret_settings.py,
+# an uncommitted file that varies between dev and prod environments.
+try:
+    from bingosync.secret_settings import IS_PROD, SECRET_KEY, ADMINS, SERVER_EMAIL, DB_USER
+except ImportError as e:
+    raise ImportError("secret_settings.py is missing! "
+                      "You may need to create one from secret_settings.py.template") from e
 
-from bingosync.secret_settings import SECRET_KEY, ADMINS, SERVER_EMAIL, DB_USER
 try:
     # used to clear the board cache without restarting the server
     from bingosync.secret_settings import SECRET_CACHE_KEY
@@ -51,6 +56,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'bootstrapform',
     'crispy_forms',
+    'crispy_bootstrap3',
     'url_tools',
     'bingosync'
 )
@@ -111,6 +117,7 @@ else:
         }
     }
 
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 
 # Internationalization
@@ -177,6 +184,7 @@ LOGGING = {
             'backupCount': 3,
             'formatter': 'verbose',
         },
+        # Not configured correctly on the server yet.
         'mail_admins': {
             'level': 'ERROR',
             'class': 'django.utils.log.AdminEmailHandler',
@@ -185,16 +193,16 @@ LOGGING = {
     },
     'loggers': {
         'django': {
-            'handlers': ['console', 'info_log', 'warn_log', 'error_log', 'mail_admins'],
+            'handlers': ['console', 'info_log', 'warn_log', 'error_log'],
             'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
         },
         'django.server': {
-            'handlers': ['console', 'info_log', 'warn_log', 'error_log', 'mail_admins'],
+            'handlers': ['console', 'info_log', 'warn_log', 'error_log'],
             'level': os.getenv('DJANGO_LOG_LEVEL', 'ERROR'),
             'propagate': False,
         },
         'bingosync': {
-            'handlers': ['console', 'info_log', 'warn_log', 'error_log', 'mail_admins'],
+            'handlers': ['console', 'info_log', 'warn_log', 'error_log'],
             'level': 'INFO',
         },
     },
@@ -229,8 +237,13 @@ STATICFILES_DIRS = (
   os.path.join(BASE_DIR, 'static/'),
 )
 
-STATIC_ROOT = '/var/www/bingosync.com/static/'
+if IS_PROD:
+    STATIC_ROOT = '/var/www/bingosync.com/static/'
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')
 
+
+CSRF_TRUSTED_ORIGINS = ['https://bingosync.com', 'https://*.bingosync.com', 'https://*.127.0.0.1']
 
 INTERNAL_SOCKETS_URL = "127.0.0.1:8888"
 PUBLIC_SOCKETS_URL = "bingosock.bingothon.com"

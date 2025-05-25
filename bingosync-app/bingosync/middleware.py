@@ -1,4 +1,5 @@
 from django.views import defaults
+from django.http import JsonResponse
 
 import logging
 
@@ -38,8 +39,15 @@ class RequestLoggingMiddleware:
         try:
             user_ip = _get_ip_from_request(request)
             log_func = _get_log_func_for_status_code(response.status_code)
-            log_func('"%s %s" %s %s (%s)', request.method, request.get_full_path(), response.status_code,
-                    len(response.content), user_ip)
+            if request.method in ["PUT", "POST"] and response.status_code == 404:
+                log_func('"%s %s" %s %s (%s)\nrequest: %s', request.method, request.get_full_path(),
+                         response.status_code, len(response.content), user_ip, request.body)
+            elif request.method in ["PUT", "POST"] and response.status_code >= 400:
+                log_func('"%s %s" %s %s (%s)\nrequest: %s\nresponse: %s', request.method, request.get_full_path(),
+                         response.status_code, len(response.content), user_ip, request.body, response.content)
+            else:
+                log_func('"%s %s" %s %s (%s)', request.method, request.get_full_path(), response.status_code,
+                        len(response.content), user_ip)
         except Exception as e:
             logger.exception("Exception when logging request")
 
@@ -67,5 +75,7 @@ class InvalidRequestMiddleware:
 
     def process_exception(self, request, exception):
         if isinstance(exception, InvalidRequestJsonError):
-            print("Sending 400:", exception)
-            return defaults.bad_request(request, exception)
+            if request.get_full_path().startswith("/api/"):
+                return JsonResponse({"error": str(exception)}, status=400)
+            else:
+                return defaults.bad_request(request, exception)
