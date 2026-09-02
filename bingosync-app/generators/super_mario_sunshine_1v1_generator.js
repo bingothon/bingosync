@@ -3,19 +3,21 @@ var bingoGenerator = require("./generators/generator_bases/srl_generator_v5.js")
 var thisVersion = "v3 beta 9";
  
 var bingoList = [];
+
 bingoList[1] = [
 { name: "11 Delfino Blue Coins"},
 { name: "15 Delfino Blue Coins"},
 { name: "15 M Graffiti Blue Coins"},
 { name: "17 M Graffiti Blue Coins"},
-{ name: "3 Blue Trade Shines"}
+{ name: "3 Blue Trade Shines"},
+{ name: "15 Gelato Blue Coins"}
 ];
 bingoList[2] = [
-{ name: "15 Gelato Blue Coins"},
 { name: "50 Yellow Coins from 2 Levels OR 150 Delfino Yellow Coins"},
 { name: "1 Bianco Hidden Shine"},
 { name: "1 Turbo Nozzle Unlock"},
-{ name: "Pianta 100 Coin Shine"}
+{ name: "Pianta 100 Coin Shine"},
+{ name: "4 Unique Boss Shines"}
 ];
 bingoList[3] = [
 { name: "18 Lives"},
@@ -56,10 +58,9 @@ bingoList[7] = [
 bingoList[8] = [
 { name: "Pianta 3 Damageless"},
 { name: "2 Rocket Nozzle Unlocks"},
-{ name: "4 Unique Boss Shines"},
 { name: "4 Pianta Shines"},
 { name: "3 Red Coin Shines"},
-{ name: "4 Mini-Boss Shines"}
+{ name: "9 M Graffiti Entrance Shines"}
 ];
 bingoList[9] = [
 { name: "3 Secret Shines"},
@@ -73,29 +74,31 @@ bingoList[10] = [
 { name: "7 Enemy Blue Coins"},
 { name: "Bianco 100 Coin Shine"},
 { name: "20 Bianco Blue Coins"},
-{ name: "Sirena 100 Coin Shine"}
+{ name: "Sirena 100 Coin Shine"},
+{ name: "1 Sirena Hidden Shine"}
 ];
 bingoList[11] = [
 { name: "8 Delfino Shines"},
 { name: "9 Delfino Shines"},
-{ name: "1 Sirena Hidden Shine"},
 { name: "4 Secret Shines"},
-{ name: "7 Linked Blue Coin Pairs"}
+{ name: "7 Linked Blue Coin Pairs"},
+{ name: "15 Blue Coins from 3 Worlds"},
+{ name: "12 Blue Coins from 3 Levels"}
 ];
 bingoList[12] = [
 { name: "1 Pinna Hidden Shine"},
-{ name: "Pinna 3 Hoverless"},
 { name: "7 Pinna Beach Blue Coins OR 4 Fruit Lady Blue Coins"},
-{ name: "20 Blue Coins from 2 Levels"},
+{ name: "100 Coin Shine in a Secret"},
 { name: "5 Hidden Shines"},
 { name: "10 Yellow Button Coins"}
 ];
 bingoList[13] = [
+{ name: "15 Shines"},
 { name: "6 Pinna Shines"},
 { name: "Pinna 5 from the back Hoverless"},
 { name: "1 Butterfly Blue Coin (NO Pinna)"},
 { name: "Eel Shine"},
-{ name: "Sirena 4 Hidden Shine"},
+{ name: "Sirena 4 Hidden Shine"}
 ];
 bingoList[14] = [
 { name: "Both Bell Shines OR Lighthouse Shine"},
@@ -108,8 +111,8 @@ bingoList[15] = [
 { name: "2 Shines from 5 Levels"},
 { name: "Pinna 100 Coin Shine"},
 { name: "100 Coin Shine in an Episode 2"},
-{ name: "100 Coin Shine in a Secret"},
-{ name: "5 Bianco Shines"},
+{ name: "20 Blue Coins from 2 Levels"},
+{ name: "5 Secret Shines"},
 { name: "100 Coin Shine in a Boss Episode"}
 ];
 bingoList[16] = [
@@ -120,7 +123,7 @@ bingoList[16] = [
 { name: "3 Rocket Nozzle Unlocks"}
 ];
 bingoList[17] = [
-{ name: "5 Secret Shines"},
+{ name: "5 Bianco Shines"},
 { name: "2 Secrets in 1 Level"},
 { name: "Noki 100 Coin Shine"},
 { name: "6 Hidden Shines"},
@@ -131,7 +134,7 @@ bingoList[18] = [
 { name: "2 Shines from 7 Worlds"},
 { name: "12 Noki Blue Coins"},
 { name: "18 Sirena Blue Coins"},
-{ name: "Noki 2 Jumpless"}, 
+{ name: "Noki 2 Boss from the Ruins"}, 
 { name: "All 3 Cannon Mole Shines"}
 ];
 bingoList[19] = [
@@ -139,7 +142,8 @@ bingoList[19] = [
 { name: "Bianco Shadow Mario"},
 { name: "Delfino Turbo Nozzle"},
 { name: "Delfino Rocket Nozzle"},
-{ name: "26 Shines"}
+{ name: "26 Shines"},
+{ name: "Sirena 6 OR Noki 6 OR Gelato 6"}
 ];
 bingoList[20] = [
 { name: "1 Pianta Hidden Shine"},
@@ -151,33 +155,33 @@ bingoList[20] = [
 bingoList[21] = [
 { name: "3 Shines from 4 Levels"},
 { name: "5 Shines from 3 Levels"},
-{ name: "2 Turbo Nozzle Unlocks"},
 { name: "13 Delfino Shines (With Blue Trades)"},
-{ name: "15 Delfino Shines (With Blue Trades)"}
+{ name: "15 Delfino Shines (With Blue Trades)"},
+{ name: "9 Blue Coins from 4 Levels"},
+{ name: "8 Blue Coins from 5 Worlds"}
 ];
 bingoList[22] = [
 { name: "9 Episode Shines"},
 { name: "6 Shines from 2 Worlds"},
 { name: "1 Shine from each Level"},
 { name: "12 Level Shines"},
-{ name: "8 Shines from 1 Level"}
+{ name: "8 Shines from 1 Level"},
+{ name: "2 Turbo Nozzle Unlocks"}
 ];
 bingoList[23] = [
 { name: "9 NPC Blue Coins OR Ricco 8"},
 { name: "1 Episode 8 Shine"},
 { name: "Pianta Shadow Mario"},
 { name: "2 Piantissimo Shines"},
-{ name: "Sirena 5 OR Noki 6 OR Gelato 6"},
 { name: "All 4 Sand Bird Blues OR All 4 Eel Blues"}
 ];
 bingoList[24] = [
-{ name: "15 Blue Coins from 3 Worlds"},
 { name: "40 Total Blue Coins"},
 { name: "45 Total Blue Coins"},
-{ name: "50 Total Blue Coins"}
+{ name: "50 Total Blue Coins"},
+{ name: "55 Total Blue Coins"}
 ];
 bingoList[25] = [
-{ name: "12 Blue Coins from 4 Levels"},
 { name: "60 Total Blue Coins"},
 { name: "65 Total Blue Coins"},
 { name: "70 Total Blue Coins"},
